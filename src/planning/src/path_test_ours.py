@@ -2,39 +2,40 @@
 """
 Adapted from EECS 106A lab 7 Path Planning Script by Valmik Prabhu
 """
-import sys
-assert sys.argv[1] in ("sawyer", "baxter")
-ROBOT = sys.argv[1]
+# import sys
+# assert sys.argv[1] in ("sawyer", "baxter")
+# ROBOT = sys.argv[1]
 
-if ROBOT == "baxter":
-    from baxter_interface import Limb
-else:
-    from intera_interface import Limb
+# if ROBOT == "baxter":
+#     from baxter_interface import Limb
+# else:
+#     from intera_interface import Limb
 
 
-from geometry_msgs.msg import PoseStamped, Point, Vector3, Quaternion, TransformStamped
+# from geometry_msgs.msg import PoseStamped, Point, Vector3, Quaternion, TransformStamped
 
-from intera_interface import gripper as robot_gripper
+# from intera_interface import gripper as robot_gripper
 
 import csv
 import matplotlib.pyplot as plt
-import rospy
+
 import numpy as np
-import traceback
+# import traceback
+# import rospy
 
-from moveit_msgs.msg import OrientationConstraint
+# from moveit_msgs.msg import OrientationConstraint
 
-from mts_planner3 import PathPlanner
-from controller import Controller
+# from mts_planner3 import PathPlanner
+# from controller import Controller
 
-rospy.init_node("planning")
-# right_gripper = robot_gripper.Gripper("right_gripper")
-# controller = Controller(Kp, Ki, Kd, Kw, Limb('right'))
-planner = PathPlanner("right_arm")
-limb = Limb('right')
+# rospy.init_node("planning")
+# # right_gripper = robot_gripper.Gripper("right_gripper")
+# # controller = Controller(Kp, Ki, Kd, Kw, Limb('right'))
+# planner = PathPlanner("right_arm")
+# limb = Limb('right')
 
 
-GRIPPER_POS = 0.005
+# GRIPPER_POS = 0.005
 
 def initialize_gripper():
     # right_gripper.MIN_POSITION = GRIPPER_POS
@@ -171,25 +172,52 @@ def main():
 
 
 def plot_forces(filename):
+    import seaborn as sns
+    sns.set_style("darkgrid")
+
     x = []
     y = []
+    #boundaries = [1804, 1978, 2267, 2456]
+    boundaries = [2506, 2683, 2991, 3172]
 
     with open(filename, 'r') as csvfile:
         plots = csv.reader(csvfile, delimiter='\n')
         timestep = 0
         for row in plots:
             val = float(row[0])
-            print(val)
+            #print(val)
             x.append(timestep)
-            y.append(val)
+            if val > -50:
+                y.append(val)
+            else:
+                y.append(0)
+                #boundaries.append(timestep)
 
             timestep += 1
 
-    plt.plot(x, y)
+
+
+    print(boundaries)
+
+    fig = plt.figure()
+    plt.plot(x[1000:], y[1000:])
+    for xc in boundaries:
+        plt.axvline(x=xc, dashes=(2,2,1,2), color="red")
+
+    ax = plt.gca()
+    ax.set_xticks(boundaries)
+    ax.set_xticklabels(["1st\n needle drive", "", "2nd\n needle drive", ""])
+
+    fig.suptitle('End Effector force vs. time : Foam Phantom', fontsize=20)
+    plt.xlabel('Timestep', fontsize=15)
+    plt.ylabel('X-Force on End Effector (Newtons)', fontsize=15)
     plt.show()
 
 
 if __name__ == '__main__':
     #main()
     #plot_forces('/home/cc/ee106a/fa19/class/ee106a-aft/ros_workspaces/lab7/src/planning/src/force_values_clay.csv')
-    plot_forces('/home/cc/ee106a/fa19/class/ee106a-aft/ros_workspaces/lab7/src/planning/src/force_values_foam.csv')
+    #plot_forces('/home/cc/ee106a/fa19/class/ee106a-aft/ros_workspaces/lab7/src/planning/src/force_values_foam.csv')
+    plot_forces('/Users/shaantam/Documents/106a/src/planning/src/force_values_foam.csv')
+
+
