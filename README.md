@@ -2,7 +2,7 @@ How to run this project in your workspace
 
 After cloning this repo into your workspace:
 
-- cd into ros_workspaces / <workspace>
+- cd into ros_workspaces / your_workspace
 - Open up 4 terminal windows. In each, run: ./baxter.sh ada.local. 
   Then run the following:
     - 1st window:
