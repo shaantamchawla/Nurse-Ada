@@ -1,4 +1,4 @@
-Running this project in your workspace:
+How to run this project in your workspace
 
 After cloning this repo into your workspace:
 
