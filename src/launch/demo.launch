@@ -1,0 +1,3 @@
+<launch>
+	<node pkg="planning" type="planning" name="path_test" output="screen"/>
+	<node pkg="segmentation" type="segmentation" name="image_segmentation" output="screen"/>

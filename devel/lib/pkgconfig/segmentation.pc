@@ -1,0 +1,8 @@
+prefix=/home/cc/ee106a/fa19/class/ee106a-aft/ros_workspaces/lab7/devel
+
+Name: segmentation
+Description: Description of segmentation
+Version: 0.0.0
+Cflags: -I/home/cc/ee106a/fa19/class/ee106a-aft/ros_workspaces/lab7/devel/include
+Libs: -L/home/cc/ee106a/fa19/class/ee106a-aft/ros_workspaces/lab7/devel/lib 
+Requires: ddynamic_reconfigure ros_numpy roscpp rospy std_msgs message_runtime
